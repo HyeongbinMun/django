@@ -1,0 +1,3 @@
+@echo off
+@cd d:/Source/django/game_site/mysite
+@d:/scripts/activate

@@ -21,5 +21,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('game/', include('game.urls')),
     path('user/', include('user.urls')),
+    path('play/', include('play.urls')),
     path('', views.index, name='index'),  # '/' 에 해당되는 path
 ]

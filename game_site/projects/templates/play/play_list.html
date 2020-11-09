@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load game_filter %}
 {% block content %}
-<div class="container my-3">
+<div class="cntainer my-3 text-center">
     <table class="table">
         <thead>
         <tr class="thead-light">
@@ -11,24 +11,21 @@
         </tr>
         </thead>
         <tbody>
-        {% if question_list %}
-        {% for question in question_list %}
+        {% if game_list %}
+        {% for game in game_list %}
         <tr>
             <td>
             <!-- 번호 = 전체건수 - 시작인덱스 - 현재인덱스 + 1 -->
-            {{ question_list.paginator.count|sub:question_list.start_index|sub:forloop.counter0|add:1 }}
+            {{ game_list.paginator.count|sub:game_list.start_index|sub:forloop.counter0|add:1 }}
             <td>
-                <a href="{% url 'game:detail' question.id %}">{{ question.subject }}</a>
-                {% if question.answer_set.count > 0 %}
-                <span class="text-danger small ml-2">{{ question.answer_set.count }}</span>
-                {% endif %}
+                <a href="{% url 'play:detail' game.id %}">{{ game.subject }}</a>
             </td>
-            <td>{{ question.create_date }}</td>
+            <td>{{ game.create_date }}</td>
         </tr>
         {% endfor %}
         {% else %}
         <tr>
-            <td colspan="3">질문이 없습니다.</td>
+            <td colspan="3">게임이 없습니다.</td>
         </tr>
         {% endif %}
         </tbody>
@@ -36,9 +33,9 @@
     <!-- 페이징처리 시작 -->
     <ul class="pagination justify-content-center">
         <!-- 이전페이지 -->
-        {% if question_list.has_previous %}
+        {% if gmae_list.has_previous %}
         <li class="page-item">
-            <a class="page-link" href="?page={{ question_list.previous_page_number }}">이전</a>
+            <a class="page-link" href="?page={{ game_list.previous_page_number }}">이전</a>
         </li>
         {% else %}
         <li class="page-item disabled">
@@ -46,9 +43,9 @@
         </li>
         {% endif %}
         <!-- 페이지리스트 -->
-        {% for page_number in question_list.paginator.page_range %}
-        {% if page_number >= question_list.number|add:-5 and page_number <= question_list.number|add:5 %}
-            {% if page_number == question_list.number %}
+        {% for page_number in game_list.paginator.page_range %}
+        {% if page_number >= game_list.number|add:-5 and page_number <= gmae_list.number|add:5 %}
+            {% if page_number == game_list.number %}
             <li class="page-item active" aria-current="page">
                 <a class="page-link" href="?page={{ page_number }}">{{ page_number }}</a>
             </li>
@@ -60,9 +57,9 @@
         {% endif %}
         {% endfor %}
         <!-- 다음페이지 -->
-        {% if question_list.has_next %}
+        {% if game_list.has_next %}
         <li class="page-item">
-            <a class="page-link" href="?page={{ question_list.next_page_number }}">다음</a>
+            <a class="page-link" href="?page={{ game_list.next_page_number }}">다음</a>
         </li>
         {% else %}
         <li class="page-item disabled">
@@ -71,7 +68,6 @@
         {% endif %}
     </ul>
     <!-- 페이징처리 끝 -->
-    <a href="{% url 'game:question_create' %}" class="btn btn-primary">질문 등록하기</a>
-    <a href="{% url 'play:index' %}" class="btn btn-primary">게임 하러가기</a>
+    <a href="{% url 'game:index' %}" class="btn btn-primary">건의사항</a>
 </div>
 {% endblock %}

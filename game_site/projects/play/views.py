@@ -21,3 +21,6 @@ def detail(request, game_id):
     game = get_object_or_404(Game, pk=game_id)
     context = {'game' : game}
     return render(request, 'play/play_detail.html', context)
+
+def category_update(request, game_id):
+    game = get_object_or_404(Game, pk=game_id)

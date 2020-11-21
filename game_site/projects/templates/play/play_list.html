@@ -1,10 +1,10 @@
 {% extends 'base.html' %}
 {% load game_filter %}
 {% block content %}
-<div class="cntainer my-3 text-center">
+<div class="cntainer my-3">
     <table class="table">
         <thead>
-        <tr class="thead-light">
+        <tr class="thead-dark">
             <th>번호</th>
             <th>제목</th>
             <th>작성일시</th>
@@ -68,6 +68,9 @@
         {% endif %}
     </ul>
     <!-- 페이징처리 끝 -->
+    <div class="container text-left">
+    <a href="{% url 'play:create' %}" class="btn btn-primary">게임등록</a>
     <a href="{% url 'game:index' %}" class="btn btn-primary">건의사항</a>
+    </div>
 </div>
 {% endblock %}

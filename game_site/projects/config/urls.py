@@ -15,7 +15,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from game import views
+from django.conf import settings
+from django.conf.urls.static import static
+from play import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -23,4 +25,7 @@ urlpatterns = [
     path('user/', include('user.urls')),
     path('play/', include('play.urls')),
     path('', views.index, name='index'),  # '/' 에 해당되는 path
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    

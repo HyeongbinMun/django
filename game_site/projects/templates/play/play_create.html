@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container">
+    <h5 class="my-3 border-bottom pb-2">게임등록</h5>
+    <form method="post" class="post-form my-3" enctype="multipart/form-data">
+        {% csrf_token %}
+        {% if game.errors %}
+            <div class="alert alert-danger" role="alert">
+            {% for field in game %}
+                {% if field.errors %}
+                <strong>{{ field.label }}</strong>
+                {{ field.errors }}
+                {% endif %}
+            {% endfor %}
+            </div>
+        {% endif %}
+        <!-- 오류표시 End -->
+        <div class="form-group">
+            <label for="subject">제목</label>
+            <input type="text" class="form-control" name="subject" id="subject"
+                   value="{{ form.subject.value|default_if_none:'' }}">
+        </div>
+        <div class="form-group">
+            <label for="category">카테고리</label>
+            <table class="table">
+                <th><input type="checkbox" name="category" value="arcade">아케이드</th>
+                <th><input type="checkbox" name="category" value="shooting">슈팅</th>
+                <th><input type="checkbox" name="category" value="RPG">RPG</th>
+                <th><input type="checkbox" name="category" value="sports">스포츠</th>
+                <th><input type="checkbox" name="category" value="other">기타</th>
+            </table>
+        </div>
+        <div class="form-group">
+            <label for="content">내용</label>
+            <textarea class="form-control" name="content"
+                      id="content" rows="10">{{ form.content.value|default_if_none:'' }}</textarea>
+        </div>
+        <div class="form-group">
+            <label for="imgs">이미지(다중 선택 가능)</label>
+            <input type="file" class="form-control" name="imgs" multiple>
+        </div>
+        <div class="form-group">
+            <label for="files">파일(.zip 1개)</label>
+            <input type="file" class="form-control" name="files">
+        </div>
+        <button type="submit" class="btn btn-primary">저장하기</button>
+    </form>
+</div>
+{% endblock %}

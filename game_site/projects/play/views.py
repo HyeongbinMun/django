@@ -1,10 +1,11 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Game, Category, Game_images
+from .models import Game, Category, Game_images, Comment
 from django.utils import timezone
 from django.core.paginator import Paginator
-from .forms import GameForm, ImageForm, CategoryForm, ImageFormSet
+from .forms import GameForm, ImageForm, CategoryForm, ImageFormSet, CommentForm
 import urllib, os, mimetypes
 from django.http import HttpResponse, Http404
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 def index(request):
@@ -23,17 +24,17 @@ def index(request):
 
 def detail(request, game_id):
     game = get_object_or_404(Game, pk=game_id)
-    form = ImageFormSet()
-    category = CategoryForm()
-    context = {'game' : game, 'form' : form, 'category' : category}
+    context = {'game' : game}
     return render(request, 'play/play_detail.html', context)
 
+@login_required(login_url='user:login')
 def create(request):
     if request.method == 'POST':
         game = GameForm(request.POST, request.FILES)
         if game.is_valid():
             play = game.save(commit=False)
             play.create_date = timezone.now()
+            play.author = request.user
             play.save()
             for img in request.FILES.getlist('imgs'):
                 gimage = Game_images()
@@ -51,7 +52,7 @@ def create(request):
     context = {'game' : game}
     return render(request, 'play/play_create.html', context)
 
-def download(reqeust, game_id):
+def download(request, game_id):
     game = get_object_or_404(Game, pk=game_id)
     url = game.files.url[1:]
     file_url = urllib.parse.unquote(url)
@@ -62,6 +63,27 @@ def download(reqeust, game_id):
             response['Content-Disposition'] = 'attachment;filename*UTF-8\'\'%s' % quote_file_url
             return response
         raise Http404
+
+def comment_create(request, game_id):
+    game = get_object_or_404(Game, pk=game_id)
+    if request.method == "POST":
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.create_data = timezone.now()
+            comment.game = game
+            comment.save()
+            return redirect('play:detail', game_id=game.id)
+    else:
+        form = CommentForm()
+    context = {'game': game, 'form': form}
+    return render(request, 'play/game_detail.html', context)
+
+@login_required(login_url='user:login')
+def comment_delete(request, comment_id):
+    comment = get_object_or_404(Comment, pk=comment_id)
+    comment.delete()
+    return redirect('play:detail', game_id=comment.game.id)
 
 
 

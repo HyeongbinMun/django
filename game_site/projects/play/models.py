@@ -1,7 +1,9 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 # Create your models here.
 class Game(models.Model):
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
     subject = models.CharField(max_length=200)
     content = models.TextField()
     create_date = models.DateTimeField()
@@ -17,3 +19,13 @@ class Game_images(models.Model):
 class Category(models.Model):
     game = models.ForeignKey(Game, on_delete=models.CASCADE)
     subject = models.CharField(max_length=100)
+
+class Comment(models.Model):
+   game = models.ForeignKey(Game, null=True, blank=True, on_delete=models.CASCADE)
+   content = models.TextField()
+   create_data = models.DateTimeField()
+
+class Comment_Answer(models.Model):
+    comment = models.ForeignKey(Comment, null=True, blank=True, on_delete=models.CASCADE)
+    content = models.TextField()
+    create_data = models.DateTimeField()

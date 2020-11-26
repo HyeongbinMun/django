@@ -2,24 +2,29 @@
 {% load game_filter %}
 {% block content %}
 <div class="cntainer my-3">
+    <div class="container text-center">
+        <img src="/static/images/game_play.jpg" alt="게임방법" height="200">
+    </div>
     <table class="table">
         <thead>
-        <tr class="thead-dark">
+        <tr class="text-center thead-dark">
             <th>번호</th>
-            <th>제목</th>
+            <th style="width:50%">제목</th>
+            <th>글쓴이</th>
             <th>작성일시</th>
         </tr>
         </thead>
         <tbody>
         {% if game_list %}
         {% for game in game_list %}
-        <tr>
+        <tr class="text-center">
             <td>
             <!-- 번호 = 전체건수 - 시작인덱스 - 현재인덱스 + 1 -->
             {{ game_list.paginator.count|sub:game_list.start_index|sub:forloop.counter0|add:1 }}
-            <td>
+            <td class="text-center">
                 <a href="{% url 'play:detail' game.id %}">{{ game.subject }}</a>
             </td>
+            <td>{{ game.author.username }}</td>
             <td>{{ game.create_date }}</td>
         </tr>
         {% endfor %}

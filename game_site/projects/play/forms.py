@@ -1,5 +1,5 @@
 from django import forms
-from play.models import Game, Game_images, Category
+from play.models import Game, Game_images, Category, Comment
 
 class GameForm(forms.ModelForm):
     class Meta:
@@ -27,4 +27,12 @@ class CategoryForm(forms.ModelForm):
         fields = ['subject']
         labels = {
             'subject' : '카테고리',
+        }
+
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ['content']
+        labels = {
+            'content' : '내용',
         }

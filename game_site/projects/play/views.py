@@ -6,6 +6,7 @@ from .forms import GameForm, ImageForm, CategoryForm, ImageFormSet, CommentForm
 import urllib, os, mimetypes
 from django.http import HttpResponse, Http404
 from django.contrib.auth.decorators import login_required
+from django.db.models import Q, Count
 
 # Create your views here.
 def index(request):
@@ -13,13 +14,27 @@ def index(request):
     context = {'game_list': game_list}
     # 입력 파라미터
     page = request.GET.get('page', '1')  # 페이지
-    # 조회
-    game_list = Game.objects.order_by('-create_date')
+    kw = request.GET.get('kw', '')  # 검색어
+    so = request.GET.get('so', 'recent')  # 정렬기준
+
+    # 정렬
+    if so == 'recommend':
+        game_list = Game.objects.annotate(num_voter=Count('voter')).order_by('-num_voter', '-create_date')
+    elif so == 'popular':
+        game_list = Game.objects.annotate(num_comment=Count('comment')).order_by('-num_comment', '-create_date')
+    else:  # recent
+        game_list = Game.objects.order_by('-create_date')
+    if kw:
+        game_list = game_list.filter(
+            Q(subject__icontains=kw) |  # 제목검색
+            Q(content__icontains=kw) |  # 내용검색
+            Q(author__username__icontains=kw)  # 질문 글쓴이검색
+        ).distinct()
     # 페이징처리
     paginator = Paginator(game_list, 10)  # 페이지당 10개씩 보여주기
     page_obj = paginator.get_page(page)
 
-    context = {'game_list': page_obj}
+    context = {'game_list': page_obj, 'page': page, 'kw': kw, 'so':so}
     return render(request, 'play/play_list.html', context)
 
 def detail(request, game_id):

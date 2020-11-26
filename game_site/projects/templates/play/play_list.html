@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load game_filter %}
 {% block content %}
-<div class="cntainer my-3">
+<div class="cntainer mx-5">
     <div class="container text-center">
         <img src="/static/images/game_play.jpg" alt="게임방법" height="200">
     </div>
@@ -23,6 +23,9 @@
             {{ game_list.paginator.count|sub:game_list.start_index|sub:forloop.counter0|add:1 }}
             <td class="text-center">
                 <a href="{% url 'play:detail' game.id %}">{{ game.subject }}</a>
+                {% if game.comment_set.count > 0 %}
+                    <span class="text-danger small ml-2">{{ game.comment_set.count }}</span>
+                {% endif %}
             </td>
             <td>{{ game.author.username }}</td>
             <td>{{ game.create_date }}</td>
@@ -73,9 +76,13 @@
         {% endif %}
     </ul>
     <!-- 페이징처리 끝 -->
-    <div class="container text-left">
-    <a href="{% url 'play:create' %}" class="btn btn-primary">게임등록</a>
-    <a href="{% url 'game:index' %}" class="btn btn-primary">건의사항</a>
-    </div>
+    <form class="form-row mx-3">
+        <div class="col">
+            <a href="{% url 'play:create' %}" class="btn btn-outline-info">게임등록</a>
+        </div>
+        <div class="col text-right">
+            <a href="{% url 'game:index' %}" class="btn btn-outline-dark">건의사항</a>
+        </div>
+    </form>
 </div>
 {% endblock %}

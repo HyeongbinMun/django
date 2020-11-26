@@ -85,6 +85,8 @@ def comment_delete(request, comment_id):
     comment.delete()
     return redirect('play:detail', game_id=comment.game.id)
 
-
-
-
+@login_required(login_url='user:login')
+def vote_game(request, game_id):
+    game = get_object_or_404(Game, pk=game_id)
+    game.voter.add(request.user)
+    return redirect('play:detail', game_id=game_id)

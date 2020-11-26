@@ -71,7 +71,13 @@
         {% endif %}
     </ul>
     <!-- 페이징처리 끝 -->
-    <a href="{% url 'game:question_create' %}" class="btn btn-primary">질문 등록하기</a>
-    <a href="{% url 'play:index' %}" class="btn btn-primary">게임 하러가기</a>
+    <form class="row mx-3">
+        <div class="col">
+            <a href="{% url 'game:question_create' %}" class="btn btn-outline-info">질문하기</a>
+        </div>
+        <div class="col text-right">
+            <a href="{% url 'play:index' %}" class="btn btn-outline-dark">게임하기</a>
+        </div>
+    </form>
 </div>
 {% endblock %}

@@ -43,7 +43,14 @@
             <label for="files">파일(.zip 1개)</label>
             <input type="file" class="form-control" name="files">
         </div>
-        <button type="submit" class="btn btn-primary">저장하기</button>
+        <form class="form-row mx-3">
+            <div class="col text-center">
+                <button type="submit" class="btn btn-outline-info">저장하기</button>
+            </div>
+            <div class="col text-right">
+                <button href="{% url 'play:index' %}" class="btn btn-outline-secondary">목록으로 돌아가기</button>
+            </div>
+        </form>
     </form>
 </div>
 {% endblock %}

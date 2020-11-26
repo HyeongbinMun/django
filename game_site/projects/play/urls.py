@@ -12,6 +12,7 @@ urlpatterns = [
     path('download/<int:game_id>/', views.download, name='download'),
     path('comment/create/<int:game_id>/', views.comment_create, name='comment_create'),
     path('comment/delete/<int:comment_id>/', views.comment_delete, name='comment_delete'),
+    path('vote/game/<int:game_id>/', views.vote_game, name='vote_game')
 ]
 
 # 이미지 URL 설정

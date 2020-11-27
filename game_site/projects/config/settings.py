@@ -27,6 +27,7 @@ SECRET_KEY = 'yt6*y$l^+d(yfh=&3-4hi#=0j00_+0mpwgf9hoanz_7wt5)f5%'
 DEBUG = True
 
 ALLOWED_HOSTS = ['15.165.72.116']
+#ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -128,7 +129,7 @@ STATICFILES_DIRS = [
 ]
 
 
-STATIC_ROOT = os.path.join(BASE_DIR, "static")
+STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR), "static")
 #static 파일들이 어디로 모일 것인지를 쓰는 곳
 
 # 로그인 성공후 이동하는 URL

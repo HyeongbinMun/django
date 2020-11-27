@@ -123,13 +123,12 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR), "static")
-
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static')
 ]
 
-#STATIC_ROOT= os.path.join(BASE_DIR,'static')
+
+STATIC_ROOT = os.path.join(BASE_DIR, "static")
 #static 파일들이 어디로 모일 것인지를 쓰는 곳
 
 # 로그인 성공후 이동하는 URL

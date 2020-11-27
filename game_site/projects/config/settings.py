@@ -122,14 +122,16 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
+ROOT_DIR = os.path.dirname(BASE_DIR)
+
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static')
 ]
 
+STATIC_ROOT = os.path.join(ROOT_DIR, '.static_root')
 
-STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR), "static")
 #static 파일들이 어디로 모일 것인지를 쓰는 곳
 
 # 로그인 성공후 이동하는 URL

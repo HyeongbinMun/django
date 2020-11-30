@@ -9,9 +9,9 @@
             <img src="/static/images/pygame.jpg" alt="pygame" height="50">
         </div>
     </form>
-    <div class="container text-center">
+    <div class="container text-center px-1">
         {% for ima in game.game_images_set.all %}
-            <img src="{{ima.image.url}}" alt="Ball_bounce_game" class ="img-responsive">
+            <img src="{{ima.image.url}}" alt="Ball_bounce_game" height = "300" width="300">
         {% endfor %}
     </div>
     <div>
